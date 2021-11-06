@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/constants.dart';
+import 'package:shop_app/size_config.dart';
 // import 'package:shop_app/constants.dart';
 // import 'package:shop_app/size_config.dart';
 
 import '../components/splash_content.dart';
+import '../../../components/default_button.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  int currentPage = 0; // 0から始める
   List<Map<String, String>> splashData = [
     {
       "text": "Welcome to Tokoto, Let’s shop!",
@@ -37,6 +41,12 @@ class _BodyState extends State<Body> {
             Expanded(
               flex: 3,
               child: PageView.builder(
+                onPageChanged: (value) {
+                  //ページに合わせて動くよ
+                  setState(() {
+                    currentPage = value;
+                  });
+                },
                 itemBuilder: (context, index) => SplashContent(
                   // indexからデータを引っ張り出して
                   // image:text:それぞれにデータを渡す
@@ -45,12 +55,45 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 2,
-              child: SizedBox(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                child: Column(
+                  children: <Widget>[
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                          splashData.length, (index) => buildDot(index: index)),
+                    ),
+                    const Spacer(flex: 3),
+                    DefaultButton(
+                      text: "Continue",
+                      press: () {},
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  AnimatedContainer buildDot({int? index}) {
+    //アニメーションの追加
+    return AnimatedContainer(
+      duration: kAnimationDuration,
+      margin: const EdgeInsets.only(right: 5), //左に動かす
+      height: 6,
+      width: currentPage == index ? 20 : 6, //表示ページの幅を広くする
+      decoration: BoxDecoration(
+        color: currentPage == index ? kPrimaryColor : const Color(0xFFD8D8D8),
+        borderRadius: BorderRadius.circular(3), //丸くする
       ),
     );
   }
