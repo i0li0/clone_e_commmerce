@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
+import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -41,6 +42,14 @@ class _SignFormState extends State<SignForm> {
               ),
               const Text("Remember me"),
               const Spacer(),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                    context, ForgotPasswordScreen.routeName),
+                child: const Text(
+                  "Forgot Password",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+              ),
             ],
           ),
         ],
@@ -53,7 +62,7 @@ class _SignFormState extends State<SignForm> {
       decoration: const InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
@@ -64,7 +73,7 @@ class _SignFormState extends State<SignForm> {
       decoration: const InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
